@@ -49,45 +49,27 @@ paths:
         Gets `Products` objects.
         Optional query param of **size** determines
         size of returned array
-      # This is array of GET operation parameters:
       parameters:
-        # An example parameter that is in query and is required
         - in: path
           name: productId
           description: Size of array
           required: true
           type: integer
           format: int64
-      # Expected responses for this operation:
       responses:
-        # Response code
         200:
           description: Successful response
-          # A schema describing your response object.
-          # Use JSON Schema format
-          schema:
-            title: ArrayOfProducts
-            type: array
-            items:
-              title: Person
-              type: object
-              properties:
-                name:
-                  type: string
-                single:
-                  type: boolean
     delete:
       tags:
         - product
-      summary: Deletes a product
-      description: ""
+      description: "Deletes a product"
       operationId: deletePet
       produces:
         - application/json
         - application/xml
       parameters:
-        - in: path
-          name: productId
+        - name: productId
+          in: path
           description: Pet id to delete
           required: true
           type: integer
@@ -111,17 +93,28 @@ paths:
         # Response code
         200:
           description: Successful response
-          
-  /variations:
+  
+  /products/{productId}/variations:
     get:
+      tags:
+        - variation
       description: |
         Gets `Variation` objects.
       produces:
         - application/json
+      parameters:
+        - name: productId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
       responses:
         200:
           description: Successful response
     post:
+      tags:
+        - variation
       description: |
         Create a new variation.
       consumes:
@@ -129,8 +122,14 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: body
-          name: body
+        - name: productId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: body 
+          in: body
           description: Variation object that needs to be added to the product
           required: false
           schema:
@@ -140,6 +139,37 @@ paths:
           description: Successful response
         400:
           description: Invaild input
+  
+  /warehouses:
+    get:
+      tags:
+        - warehouse
+      description: |
+        Gets `Warehouse` objects.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response
+  
+  /warehouse/{warehouseId}/stock_items:
+    get:
+      tags:
+        - warehouse
+      description: |
+        Gets `stock_item` objects.
+      produces:
+        - application/json
+      parameters:
+        - name: warehouseId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
   
   /orders:
     get:
@@ -192,7 +222,113 @@ paths:
         200:
           description: Successful response
   
+  /orders/{orderId}:
+    get:
+      tags:
+        - order
+      description: |
+        Gets order object.
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
           
+  /orders/{orderId}/line_items:
+    get:
+      tags:
+        - line_item
+      description: |
+        Gets lineitems object.
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    post:
+      tags:
+        - line_item
+      description: |
+        Create a new lineitem.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    
+  /orders/{orderId}/line_items/{line_itemId}:
+    delete:
+      tags:
+        - line_item
+      description: |
+        Gets line_item object.
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: line_itemId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    put:
+      tags:
+        - line_item
+      description: |
+        Update existing new lineitem.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: line_itemId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    
 definitions:
   Product:
     properties:
