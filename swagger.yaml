@@ -5,8 +5,97 @@ info:
   title: API
 
 paths:
+  /stores:
+    get:
+      tags:
+        - store
+      description: |
+        List all stores
+      produces:
+        - application/json
+      parameters:
+        - name: size
+          in: query
+          description: Size of array
+          required: true
+          type: number
+          format: double
+      responses:
+        200:
+          description: Successful response
+    post:
+      tags:
+        - store
+      description: |
+        Create a new store.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: store object
+          required: false
+          schema:
+            $ref: "#/definitions/Store"
+      responses:
+        201:
+          description: Successful response
+        400:
+          description: Invaild input
+          
+  /stores/{store_id}:
+    get:
+      tags:
+        - product
+      description: |
+        Get the store detail
+      parameters:
+        - name: store_id 
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    delete:
+      tags:
+        - product
+      description: |
+        Delete the store
+      parameters:
+        - name: store_id 
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    put:
+      tags:
+        - product
+      description: |
+        Update the store
+      parameters:
+        - name: store_id 
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+
   /products:
     get:
+      tags:
+        - product
       description: |
         Gets `Products` objects.
         Optional query param of **size** determines
@@ -24,6 +113,8 @@ paths:
         200:
           description: Successful response
     post:
+      tags:
+        - product
       description: |
         Create a new product.
       consumes:
@@ -38,13 +129,15 @@ paths:
           schema:
             $ref: "#/definitions/Product"
       responses:
-        200:
+        201:
           description: Successful response
         400:
           description: Invaild input
           
   /products/{productId}:
     get:
+      tags:
+        - product
       description: |
         Gets `Products` objects.
         Optional query param of **size** determines
@@ -139,6 +232,56 @@ paths:
           description: Successful response
         400:
           description: Invaild input
+          
+  /products/{productId}/variations/{variation_id}:
+    put:
+      tags:
+        - variation
+      description: |
+        update variation object
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: productId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: variation_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    delete:
+      tags:
+        - variation
+      description: |
+        delete variation object
+      produces:
+        - application/json
+      parameters:
+        - name: productId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: variation_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
   
   /warehouses:
     get:
@@ -276,7 +419,7 @@ paths:
           type: integer
           format: int64
       responses:
-        200:
+        201:
           description: Successful response
     
   /orders/{orderId}/line_items/{line_itemId}:
@@ -328,8 +471,269 @@ paths:
       responses:
         200:
           description: Successful response
+          
+  /orders/{orderId}/payments:
+    get:
+      tags:
+        - payment
+      description: |
+        Get details about an order's payments.
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    post:
+      tags:
+        - payment
+      description: |
+        Create a new payment.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        201:
+          description: Successful response
+  
+  /orders/{orderId}/payments/new:
+    get:
+      tags:
+        - payment
+      description: |
+        In order to create a new payment, you will need to know about the available payment methods.
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/payments/{paymentId}:
+    get:
+      tags:
+        - payment
+      description: |
+        Gets payment detail.
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: paymentId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+  
+  /orders/{orderId}/payments/{paymentId}/authorize:
+    get:
+      tags:
+        - payment
+      description: |
+        To authorize a payment
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: paymentId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/payments/{paymentId}/capture:
+    get:
+      tags:
+        - payment
+      description: |
+        To capture a payment
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: paymentId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/payments/{paymentId}/purchase:
+    get:
+      tags:
+        - payment
+      description: |
+        To make a purchase with a payment
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: paymentId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+  
+  /orders/{orderId}/payments/{paymentId}/void:
+    put:
+      tags:
+        - payment
+      description: |
+        To void a payment
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: paymentId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+          
+  /orders/{orderId}/payments/return_authorizations:
+    post:
+      tags:
+        - return_authorizations
+      description: |
+        To create a return authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        201:
+          description: Successful response
+  
+  
+  /orders/{orderId}/payments/return_authorizations/{return_authorizations_id}:
+    delete:
+      tags:
+        - return_authorizations
+      description: |
+        To delete a return authorization
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: return_authorizations_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        201:
+          description: Successful response
+    put:
+      tags:
+        - return_authorizations
+      description: |
+        To update a return authorization
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: return_authorizations_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        201:
+          description: Successful response
+
     
 definitions:
+  Store:
+    properties:
+      id:
+        type: integer
+        format: int64
   Product:
     properties:
       id:
