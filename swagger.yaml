@@ -48,7 +48,7 @@ paths:
   /stores/{store_id}:
     get:
       tags:
-        - product
+        - store
       description: |
         Get the store detail
       parameters:
@@ -63,7 +63,7 @@ paths:
           description: Successful response
     delete:
       tags:
-        - product
+        - store
       description: |
         Delete the store
       parameters:
@@ -78,7 +78,7 @@ paths:
           description: Successful response
     put:
       tags:
-        - product
+        - store
       description: |
         Update the store
       parameters:
@@ -383,6 +383,88 @@ paths:
       responses:
         200:
           description: Successful response
+    put:
+      tags:
+        - order
+      description: |
+        Update existing order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/close:
+    post:
+      tags:
+        - order
+      description: |
+        Close the order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/open:
+    post:
+      tags:
+        - order
+      description: |
+        Re-open the order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/cancel:
+    post:
+      tags:
+        - order
+      description: |
+        Cancel the order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
           
   /orders/{orderId}/line_items:
     get:
@@ -472,12 +554,13 @@ paths:
         200:
           description: Successful response
           
-  /orders/{orderId}/payments:
+
+  /orders/{orderId}/transactions:
     get:
       tags:
-        - payment
+        - transaction
       description: |
-        Get details about an order's payments.
+        Get details about an order's transactions history.
       produces:
         - application/json
       parameters:
@@ -492,7 +575,7 @@ paths:
           description: Successful response
     post:
       tags:
-        - payment
+        - transaction
       description: |
         Create a new payment.
       consumes:
@@ -510,10 +593,10 @@ paths:
         201:
           description: Successful response
   
-  /orders/{orderId}/payments/new:
+  /orders/{orderId}/transactions/new:
     get:
       tags:
-        - payment
+        - transaction
       description: |
         In order to create a new payment, you will need to know about the available payment methods.
       produces:
@@ -529,12 +612,12 @@ paths:
         200:
           description: Successful response
           
-  /orders/{orderId}/payments/{paymentId}:
-    get:
+  /orders/{orderId}/transactions/{transaction_id}:
+    post:
       tags:
-        - payment
+        - transaction
       description: |
-        Gets payment detail.
+        Gets transaction detail.
       produces:
         - application/json
       parameters:
@@ -544,7 +627,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: paymentId
+        - name: transaction_id
           in: path
           description: ""
           required: true
@@ -554,10 +637,10 @@ paths:
         200:
           description: Successful response
   
-  /orders/{orderId}/payments/{paymentId}/authorize:
-    get:
+  /orders/{orderId}/transactions/authorize:
+    post:
       tags:
-        - payment
+        - transaction
       description: |
         To authorize a payment
       produces:
@@ -569,20 +652,14 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: paymentId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
       responses:
         200:
           description: Successful response
           
-  /orders/{orderId}/payments/{paymentId}/capture:
-    get:
+  /orders/{orderId}/transactions/capture:
+    post:
       tags:
-        - payment
+        - transaction
       description: |
         To capture a payment
       produces:
@@ -594,20 +671,14 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: paymentId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
       responses:
         200:
           description: Successful response
           
-  /orders/{orderId}/payments/{paymentId}/purchase:
-    get:
+  /orders/{orderId}/transactions/purchase:
+    post:
       tags:
-        - payment
+        - transaction
       description: |
         To make a purchase with a payment
       produces:
@@ -619,20 +690,14 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: paymentId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
       responses:
         200:
           description: Successful response
   
-  /orders/{orderId}/payments/{paymentId}/void:
-    put:
+  /orders/{orderId}/transactions/void:
+    post:
       tags:
-        - payment
+        - transaction
       description: |
         To void a payment
       produces:
@@ -644,7 +709,20 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: paymentId
+      responses:
+        200:
+          description: Successful response
+          
+    /orders/{orderId}/transactions/refund:
+    post:
+      tags:
+        - transaction
+      description: |
+        a partial or full return of captured funds to the cardholder
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
           in: path
           description: ""
           required: true
@@ -655,77 +733,6 @@ paths:
           description: Successful response
           
           
-  /orders/{orderId}/payments/return_authorizations:
-    post:
-      tags:
-        - return_authorizations
-      description: |
-        To create a return authorization
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: orderId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        201:
-          description: Successful response
-  
-  
-  /orders/{orderId}/payments/return_authorizations/{return_authorizations_id}:
-    delete:
-      tags:
-        - return_authorizations
-      description: |
-        To delete a return authorization
-      produces:
-        - application/json
-      parameters:
-        - name: orderId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-        - name: return_authorizations_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        201:
-          description: Successful response
-    put:
-      tags:
-        - return_authorizations
-      description: |
-        To update a return authorization
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: orderId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-        - name: return_authorizations_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        201:
-          description: Successful response
 
     
 definitions:
