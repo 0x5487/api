@@ -92,7 +92,7 @@ paths:
         200:
           description: Successful response
           
-
+          
   /products:
     get:
       tags:
@@ -284,7 +284,6 @@ paths:
         200:
           description: Successful response
           
-          
   
   /warehouses:
     get:
@@ -317,8 +316,6 @@ paths:
         200:
           description: Successful response
           
-          
-  
   /orders:
     get:
       description: |
@@ -617,7 +614,7 @@ paths:
           description: Successful response
           
   /orders/{orderId}/transactions/{transaction_id}:
-    post:
+    get:
       tags:
         - transaction
       description: |
@@ -727,6 +724,138 @@ paths:
         - application/json
       parameters:
         - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /checkouts/{order_id}/:
+    post:
+      tags:
+        - checkout
+      description: |
+        checkout an order
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    put:
+      tags:
+        - checkout
+      description: |
+        update the order
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /checkouts/{order_id}/address:
+    post:
+      tags:
+        - checkout
+      description: |
+        input billing and shipping address
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+
+  /checkouts/{order_id}/delivery:
+    put:
+      tags:
+        - checkout
+      description: |
+        select delivery
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /checkouts/{order_id}/payment:
+    put:
+      tags:
+        - checkout
+      description: |
+        update shipping address
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /checkouts/{order_id}/confirm:
+    post:
+      tags:
+        - checkout
+      description: |
+        confirm the checkout
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+  
+  /checkouts/{order_id}/complete:
+    post:
+      tags:
+        - checkout
+      description: |
+        complete the checkout
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
           in: path
           description: ""
           required: true
