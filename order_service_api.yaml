@@ -9,34 +9,13 @@ paths:
   /orders:
     get:
       description: |
-        Gets `Products` objects.
-        Optional query param of **size** determines
-        size of returned array
+        Get all orders
       produces:
         - application/json
-      parameters:
-        # An example parameter that is in query and is required
-        -
-          name: size
-          in: query
-          description: Size of array
-          required: true
-          type: number
-          format: double
       responses:
         200:
           description: Successful response
-          schema:
-            title: ArrayOfProducts
-            type: array
-            items:
-              title: Person
-              type: object
-              properties:
-                name:
-                  type: string
-                single:
-                  type: boolean
+
     post:
       tags: 
         - order
@@ -46,16 +25,11 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: size
-          in: query
-          description: Size of array
-          required: true
-          type: number
-          format: double
       responses:
         200:
           description: Successful response
+        400:
+          description: Bad request
   
   /orders/{orderId}:
     get:
@@ -246,6 +220,102 @@ paths:
         200:
           description: Successful response
           
+  /orders/{order_id}/address:
+    post:
+      tags:
+        - checkout
+      description: |
+        input billing and shipping address
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+
+  /orders/{order_id}/delivery:
+    put:
+      tags:
+        - checkout
+      description: |
+        select delivery
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{order_id}/payment:
+    put:
+      tags:
+        - checkout
+      description: |
+        update shipping address
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{order_id}/confirm:
+    post:
+      tags:
+        - checkout
+      description: |
+        confirm the checkout
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+  
+  /orders/{order_id}/complete:
+    post:
+      tags:
+        - checkout
+      description: |
+        complete the checkout
+      produces:
+        - application/json
+      parameters:
+        - name: order_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+    
   /orders/{orderId}/transactions:
     get:
       tags:
@@ -422,137 +492,96 @@ paths:
       responses:
         200:
           description: Successful response
-          
-  /checkouts/{order_id}/:
-    post:
-      tags:
-        - checkout
-      description: |
-        checkout an order
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-    put:
-      tags:
-        - checkout
-      description: |
-        update the order
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-          
-  /checkouts/{order_id}/address:
-    post:
-      tags:
-        - checkout
-      description: |
-        input billing and shipping address
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-          
 
-  /checkouts/{order_id}/delivery:
-    put:
-      tags:
-        - checkout
-      description: |
-        select delivery
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-          
-  /checkouts/{order_id}/payment:
-    put:
-      tags:
-        - checkout
-      description: |
-        update shipping address
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-          
-  /checkouts/{order_id}/confirm:
+  /orders/clear_timeout_order:
     post:
-      tags:
-        - checkout
+      tags: 
+        - order
       description: |
-        confirm the checkout
+        remove all timeout order
+      consumes:
+        - application/json
       produces:
         - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
       responses:
         200:
           description: Successful response
-  
-  /checkouts/{order_id}/complete:
-    post:
-      tags:
-        - checkout
-      description: |
-        complete the checkout
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-    
 
+definitions:
+  Order:
+    properties:
+      id:
+        type: integer
+        format: int64
+      shopper_id:
+        type: integer
+      subtotal:
+        type: number
+      subtotal_with_tax:
+        type: number
+      subtotal_without_tax:
+        type: number
+      shipping_fee:
+        type: number
+      shipping_fee_with_tax:
+        type: number
+      shipping_fee_without_tax:
+        type: number
+      discount:
+        type: number
+      total:
+        type: number
+      total_with_tax:
+        type: number
+      total_without_tax:
+        type: number
+      payment_method:
+        type: string
+      payment_state:
+        type: string
+      transactions:
+        type: string
+      billing_address:
+        type: string
+      shipping_address:
+        type: string
+      is_shipping_address_required:
+        type: boolean
+      state_id:
+        type: integer
+        format: int32
+      state:
+        type: string
+      ip_address:
+        type: string
+      currency_code:
+        type: string
+      is_test:
+        type: boolean
+      paid_date_utc:
+        type: string
+        format: date-time 
+  Transaction:
+    properties:
+      id:
+        type: integer
+        format: int64
+      type:
+        type: string
+      request amount:
+        type: number
+      response amount:
+        type: number
+      status:
+        type: string
+      last_modified_date:
+        type: string
+        format: date-time
+      payment_method:
+        type: string
+      last_4_digits:
+        type: integer
+        format: int32
+      expiration:
+        type: number
+        format: int32

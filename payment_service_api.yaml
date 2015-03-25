@@ -2,98 +2,13 @@ swagger: '2.0'
 
 info:
   version: "0.0.1"
-  title: API
+  title: Payment Service API
 
 paths:
-  /stores:
-    get:
-      tags:
-        - store
-      description: |
-        List all stores
-      produces:
-        - application/json
-      parameters:
-        - name: size
-          in: query
-          description: Size of array
-          required: true
-          type: number
-          format: double
-      responses:
-        200:
-          description: Successful response
-    post:
-      tags:
-        - store
-      description: |
-        Create a new store.
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: store object
-          required: false
-          schema:
-            $ref: "#/definitions/Store"
-      responses:
-        201:
-          description: Successful response
-        400:
-          description: Invaild input
-          
-  /stores/{store_id}:
-    get:
-      tags:
-        - store
-      description: |
-        Get the store detail
-      parameters:
-        - name: store_id 
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-    delete:
-      tags:
-        - store
-      description: |
-        Delete the store
-      parameters:
-        - name: store_id 
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-    put:
-      tags:
-        - store
-      description: |
-        Update the store
-      parameters:
-        - name: store_id 
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
+  
           
           
-  /products:
+  /payment:
     get:
       tags:
         - product
@@ -865,19 +780,6 @@ paths:
         200:
           description: Successful response
     
-definitions:
-  Store:
-    properties:
-      id:
-        type: integer
-        format: int64
-  Product:
-    properties:
-      id:
-        type: integer
-        format: int64
-  Variation:
-    properties:
-      id:
-        type: integer
-        format: int64
+
+
+
