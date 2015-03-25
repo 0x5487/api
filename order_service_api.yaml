@@ -69,48 +69,7 @@ paths:
         200:
           description: Successful response
           
-  /orders/{orderId}/close:
-    post:
-      tags:
-        - order
-      description: |
-        Close the order
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: orderId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-          
-  /orders/{orderId}/open:
-    post:
-      tags:
-        - order
-      description: |
-        Re-open the order
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: orderId
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
-          
+
   /orders/{orderId}/cancel:
     post:
       tags:
@@ -372,7 +331,7 @@ paths:
       responses:
         200:
           description: Successful response
-          
+
   /orders/{orderId}/transactions/{transaction_id}:
     get:
       tags:
