@@ -256,24 +256,6 @@ paths:
         200:
           description: Successful response
   
-  /orders/{order_id}/complete:
-    post:
-      tags:
-        - checkout
-      description: |
-        complete the checkout
-      produces:
-        - application/json
-      parameters:
-        - name: order_id
-          in: path
-          description: ""
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Successful response
     
   /orders/{orderId}/transactions:
     get:
