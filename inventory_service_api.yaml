@@ -6,12 +6,13 @@ info:
 
 paths:
 
-  /warehouses:
+
+  /stock-items:
     get:
       tags:
-        - warehouse
+        - stock-item
       description: |
-        Get `Warehouse` objects.
+        Get `stock-items` objects.
       produces:
         - application/json
       responses:
@@ -19,47 +20,52 @@ paths:
           description: Successful response
     post:
       tags:
-        - warehouse
+        - stock-item
       description: |
-        Create a `Warehouse` object.
+        Create a `stock-items` object.
+      produces:
+        - application/json
+      responses:
+        201:
+          description: Successful response
+
+
+          
+  /stock-items/cancel:
+    post:
+      tags:
+        - stock-item
+      description: |
+        To cancel `stock-items` objects
       produces:
         - application/json
       responses:
         201:
           description: Successful response
           
-  /warehouses/stock-items:
-    get:
+  /stock-items/void:
+    post:
       tags:
-        - warehouse
+        - stock-item
       description: |
-        Get `stock item` objects across all warehouse.
+        To void an `stock-items` objects
       produces:
         - application/json
       responses:
         200:
           description: Successful response
+
+          
+  /stock-items/{stock-items-id}/void:
     post:
       tags:
-        - warehouse
+        - stock-item
       description: |
-        Create a `Warehouse` object.
-      produces:
-        - application/json
-      responses:
-        201:
-          description: Successful response          
-          
-  /warehouse/{warehouseId}/stock-items:
-    get:
-      tags:
-        - warehouse
-      description: |
-        Gets `stock_item` objects.
+        To void an `stock-items` object
       produces:
         - application/json
       parameters:
-        - name: warehouseId
+        - name: stock-items-id
           in: path
           description: ""
           required: true
@@ -69,21 +75,95 @@ paths:
         200:
           description: Successful response
           
+  /stock-items/{stock-items-id}/cancel:
+    post:
+      tags:
+        - stock-item
+      description: |
+        To cancel an `stock-items` object
+      produces:
+        - application/json
+      parameters:
+        - name: stock-items-id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+
+  /stock-movements:
+    get:
+      tags:
+        - stock-movement
+      description: |
+        Get `stock-movement` objects.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response
+    post:
+      tags:
+        - stock-movement
+      description: |
+        Create a `stock-movement` object.
+      produces:
+        - application/json
+      responses:
+        201:
+          description: Successful response
+
+
+  /stock-movements/{stock-movement-id}:
+    get:
+      tags:
+        - stock-movement
+      description: |
+        Get `stock-movement` objects.
+      produces:
+        - application/json
+      parameters:
+        - name: stock-movement-id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+
+
  
     
 definitions:
-  Store:
+  Stock-item:
     properties:
       id:
         type: integer
         format: int64
-  Product:
+      state:
+        type: string
+      order-id:
+        type: integer
+        format: int64
+      product-id:
+        type: integer
+        format: int64
+      variation-id:
+        type: integer
+        format: int64
+  Stock-movement:
     properties:
       id:
         type: integer
         format: int64
-  Variation:
-    properties:
-      id:
+      action:
+        type: string
+      quantity:
         type: integer
         format: int64

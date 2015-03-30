@@ -70,12 +70,54 @@ paths:
           description: Successful response
           
 
+  /orders/{orderId}/empty:
+    post:
+      tags:
+        - order
+      description: |
+        empty an order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+
   /orders/{orderId}/cancel:
     post:
       tags:
         - order
       description: |
         Cancel the order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Successful response
+          
+  /orders/{orderId}/coupon:
+    post:
+      tags:
+        - order
+      description: |
+        use a coupon
       consumes:
         - application/json
       produces:
@@ -257,7 +299,7 @@ paths:
           description: Successful response
   
     
-  /orders/{orderId}/transactions:
+  /orders/{orderId}/payments:
     get:
       tags:
         - transaction
@@ -295,7 +337,7 @@ paths:
         201:
           description: Successful response
   
-  /orders/{orderId}/transactions/new:
+  /orders/{orderId}/payments/new:
     get:
       tags:
         - transaction
@@ -314,7 +356,7 @@ paths:
         200:
           description: Successful response
 
-  /orders/{orderId}/transactions/{transaction_id}:
+  /orders/{orderId}/payments/{payment_id}:
     get:
       tags:
         - transaction
@@ -329,7 +371,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: transaction_id
+        - name: payment_id
           in: path
           description: ""
           required: true
@@ -339,7 +381,7 @@ paths:
         200:
           description: Successful response
   
-  /orders/{orderId}/transactions/authorize:
+  /orders/{orderId}/payments/{payment_id}/authorize:
     post:
       tags:
         - transaction
@@ -354,11 +396,17 @@ paths:
           required: true
           type: integer
           format: int64
+        - name: payment_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
       responses:
         200:
           description: Successful response
           
-  /orders/{orderId}/transactions/capture:
+  /orders/{orderId}/payments/{payment_id}/capture:
     post:
       tags:
         - transaction
@@ -373,11 +421,17 @@ paths:
           required: true
           type: integer
           format: int64
+        - name: payment_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
       responses:
         200:
           description: Successful response
           
-  /orders/{orderId}/transactions/purchase:
+  /orders/{orderId}/payments/{payment_id}/purchase:
     post:
       tags:
         - transaction
@@ -392,11 +446,17 @@ paths:
           required: true
           type: integer
           format: int64
+        - name: payment_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
       responses:
         200:
           description: Successful response
   
-  /orders/{orderId}/transactions/void:
+  /orders/{orderId}/payments/{payment_id}/void:
     post:
       tags:
         - transaction
@@ -411,11 +471,17 @@ paths:
           required: true
           type: integer
           format: int64
+        - name: payment_id
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
       responses:
         200:
           description: Successful response
           
-  /orders/{orderId}/transactions/refund:
+  /orders/{orderId}/payments/{payment_id}/refund:
     post:
       tags:
         - transaction
@@ -425,6 +491,12 @@ paths:
         - application/json
       parameters:
         - name: orderId
+          in: path
+          description: ""
+          required: true
+          type: integer
+          format: int64
+        - name: payment_id
           in: path
           description: ""
           required: true
@@ -488,9 +560,8 @@ definitions:
         type: string
       is_shipping_address_required:
         type: boolean
-      state_id:
-        type: integer
-        format: int32
+      shipping_state:
+        type: string
       state:
         type: string
       ip_address:
@@ -499,9 +570,42 @@ definitions:
         type: string
       is_test:
         type: boolean
+      logs:
+        type: string
       paid_date_utc:
         type: string
+        format: date-time
+      created_at:
+        type: string
         format: date-time 
+      updated_at:
+        type: string
+        format: date-time
+  Line_item:
+    properties:
+      id:
+        type: integer
+        format: int64
+      product_id:
+        type: integer
+      variation_id:
+        type: integer
+      quantity:
+        type: integer
+      unit_price_with_tax:
+        type: number
+      unit_price_without_tax:
+        type: number
+      extended_price_with_tax:
+        type: number
+      extended_price_without_tax:
+        type: number
+      unit_weight:
+        type: integer
+      extended_weight:
+        type: integer
+      stock_items:
+        type: integer
   Transaction:
     properties:
       id:
