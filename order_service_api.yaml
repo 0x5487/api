@@ -71,7 +71,7 @@ paths:
           
 
   /orders/{orderId}/empty:
-    post:
+    put:
       tags:
         - order
       description: |
@@ -92,7 +92,7 @@ paths:
           description: Successful response
 
   /orders/{orderId}/cancel:
-    post:
+    put:
       tags:
         - order
       description: |
@@ -113,7 +113,7 @@ paths:
           description: Successful response
           
   /orders/{orderId}/coupon:
-    post:
+    put:
       tags:
         - order
       description: |
@@ -222,7 +222,7 @@ paths:
           description: Successful response
           
   /orders/{order_id}/address:
-    post:
+    put:
       tags:
         - checkout
       description: |
@@ -240,7 +240,6 @@ paths:
         200:
           description: Successful response
           
-
   /orders/{order_id}/delivery:
     put:
       tags:
@@ -280,7 +279,7 @@ paths:
           description: Successful response
           
   /orders/{order_id}/confirm:
-    post:
+    put:
       tags:
         - checkout
       description: |
@@ -382,7 +381,7 @@ paths:
           description: Successful response
   
   /orders/{orderId}/payments/{payment_id}/authorize:
-    post:
+    put:
       tags:
         - transaction
       description: |
@@ -407,7 +406,7 @@ paths:
           description: Successful response
           
   /orders/{orderId}/payments/{payment_id}/capture:
-    post:
+    put:
       tags:
         - transaction
       description: |
@@ -432,7 +431,7 @@ paths:
           description: Successful response
           
   /orders/{orderId}/payments/{payment_id}/purchase:
-    post:
+    put:
       tags:
         - transaction
       description: |
@@ -457,7 +456,7 @@ paths:
           description: Successful response
   
   /orders/{orderId}/payments/{payment_id}/void:
-    post:
+    put:
       tags:
         - transaction
       description: |
@@ -482,7 +481,7 @@ paths:
           description: Successful response
           
   /orders/{orderId}/payments/{payment_id}/refund:
-    post:
+    put:
       tags:
         - transaction
       description: |
@@ -507,7 +506,7 @@ paths:
           description: Successful response
 
   /orders/clear_timeout_order:
-    post:
+    put:
       tags: 
         - order
       description: |
@@ -519,6 +518,7 @@ paths:
       responses:
         200:
           description: Successful response
+
 
 definitions:
   Order:
